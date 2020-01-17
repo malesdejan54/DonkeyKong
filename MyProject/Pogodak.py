@@ -1,6 +1,7 @@
 import time
 from random import randint
 
+
 def isHit(first, second):
     rec1 = first.geometry()
     y1 = first.height()
@@ -22,16 +23,10 @@ def isHit(first, second):
         elif rec1.y() + y1 in range(rec2.y(), rec2.y() + y2):
             return True
 
-def GenerateBarrel(q):
-    while True:
-       #q.put(1)
-       time.sleep((randint(8, 12)))
 
-def GorilaFreeze(start, stop):
-    while True:
-       # a = stop.get()
-        time.sleep(5)
-        start.put(1)
+
+
+
 
 def restartPlayer(label, p):
     if p == 1:
