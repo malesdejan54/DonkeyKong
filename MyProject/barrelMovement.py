@@ -1,14 +1,14 @@
 from PyQt5.QtCore import QThread, QObject, pyqtSignal, pyqtSlot
 
 import time
-
+from random import randint
 
 class BarrelMovement(QObject):
-    barreleMovementSignal = pyqtSignal()
+    barrelMovementSignal = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, speed):
         super().__init__()
-
+        self.speed = speed
         #self.is_done = False
 
         self.thread = QThread()
@@ -38,4 +38,4 @@ class BarrelMovement(QObject):
         """
         while True:
             self.barrelMovementSignal.emit()
-            time.sleep(0.04)
+            time.sleep(self.speed)
