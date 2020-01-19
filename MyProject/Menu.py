@@ -1,11 +1,10 @@
 import sys
-import MainWindow
+from MyProject.MainWindow import MainWindow
 from PyQt5 import QtGui
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QImage, QPalette, QBrush, QFont, QPixmap
 from PyQt5.QtWidgets import QMainWindow, QLabel, QApplication, QPushButton
 from PyQt5.QtCore import Qt
-#from sim_move_demo import SimMoveDemo
 
 
 class Menu(QMainWindow):
@@ -13,14 +12,14 @@ class Menu(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        oImage = QImage("menu1.png")
+        oImage = QImage("images\\menu.jpg")
 
         self.label = QLabel(self)
         self.label1Player = QLabel(self)
-        self.oneplayer = QPixmap('1p.png')
+        self.oneplayer = QPixmap('images\\1p.png')
 
         self.label2Player = QLabel(self)
-        self.twoplayer = QPixmap('2p.png')
+        self.twoplayer = QPixmap('images\\2p.png')
 
         self.left = 400
         self.top = 200
@@ -56,13 +55,13 @@ class Menu(QMainWindow):
 
         self.show()
 
-    def one_players_on_click(self,event):
-     self.one = MainWindow
-     self.one.show()
-     self.hide()
+    def one_players_on_click(self, event):
+        self.one = MainWindow(1, 1, self)
+        self.one.show()
+        self.hide()
 
-    def two_players_on_click(self,event):
-        self.two = MainWindow
+    def two_players_on_click(self, event):
+        self.two = MainWindow(2,1,self)
         self.two.show()
         self.hide()
 
