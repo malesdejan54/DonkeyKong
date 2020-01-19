@@ -10,9 +10,9 @@ from MyProject.Fire import FireMovement
 from MyProject.barrelMovement import BarrelMovement
 from MyProject.key_notifier import KeyNotifier
 from MyProject.key_notifier2 import KeyNotifier2
-from MyProject.Pogodak import isHit, restartPlayer
+from MyProject.Pogodak import isHit, restartPlayer,generateBarrel,GorilaFreezeProcess
 from MyProject.GameOver import GameOver
-
+from multiprocessing import Process,Queue
 
 brLevel = 0
 
@@ -66,12 +66,15 @@ class MainWindow(QMainWindow):
         self.playerRez2 = QLabel(self)
         self.playerRez22 = QLabel(self)
 
-
-
-
+        self.barrelQueue = Queue()
+        self.barrelProcess = Process(target=generateBarrel, args=[self.barrelQueue])
         self.barrels = []
+        self.barrelProcess.start()
 
-
+        self.gorilaStop = Queue()
+        self.gorilaStart = Queue()
+        self.gorilaBug = Process(target=GorilaFreezeProcess, args=[self.gorilaStart, self.gorilaStop])
+        self.gorilaBug.start()
 
         self.fire_positions = [[400, 400], [500, 400], [550, 400],[700,310],[220,310]]
         self.firelabel = QLabel(self)
@@ -740,12 +743,16 @@ class MainWindow(QMainWindow):
         self.barrelsMovement.barrelMovementSignal.connect(self.moveBarrels)
         self.barrelsMovement.start()
 
+
     def closeEvent(self, event):
         self.princesMovement.die()
         self.gorilaMovement.die()
         self.key_notifier.die()
         self.key_notifier2.die()
         self.barrelsMovement.die()
+        self.barrelProcess.terminate()
+        self.movingBarrels.die()
+        self.gorilaBug.terminate()
 
     def shutdown(self, event):
         self.close()
